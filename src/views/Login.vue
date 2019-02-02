@@ -1,11 +1,17 @@
 <template>
   <div class="about">
-    <h1>Login</h1>
-    <form @submit.prevent="login">
-      Username: <input type="text" v-model="username"><br>
-      Password: <input type="password" v-model="password"><br>
-      <input type="submit" value="Login">
-    </form>
+    <h2>Login</h2>
+    <el-form ref="form" v-model="form" label-width="80px" @submit.prevent="login()">
+      <el-form-item label="Username">
+        <el-input v-model="form.username"></el-input>
+      </el-form-item>
+      <el-form-item label="Password">
+        <el-input type="password" v-model="form.password"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="login()">Log In</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -15,8 +21,10 @@ export default {
   name: 'login',
   data: () => {
     return {
-      username: "",
-      password: ""
+      form: {
+        username: "",
+        password: ""
+      }
     }
   },
   methods: {

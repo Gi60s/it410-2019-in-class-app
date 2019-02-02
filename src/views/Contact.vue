@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h2>Profile</h2>
-    <p>
-      <el-button @click="$router.push('/profile/edit')">Edit Profile</el-button>
-    </p>
+    <h2>Contact</h2>
     <contact-info></contact-info>
   </div>
 </template>
@@ -13,7 +10,7 @@
 import ContactInfo from '@/components/ContactInfo.vue'
 
 export default {
-  name: 'profile',
+  name: 'contact',
   components: {
     ContactInfo
   }
