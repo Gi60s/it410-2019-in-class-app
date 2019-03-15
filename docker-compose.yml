@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: postgres:11
+    restart: always
+    environment:
+      - POSTGRES_DB=contacts
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=passwrd
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+    ports:
+      - 3001:5432
