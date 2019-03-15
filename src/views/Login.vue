@@ -2,8 +2,8 @@
   <div class="about">
     <h2>Login</h2>
     <el-form ref="form" v-model="form" label-width="80px" @submit.prevent="login()">
-      <el-form-item label="Username">
-        <el-input v-model="form.username"></el-input>
+      <el-form-item label="Email">
+        <el-input v-model="form.email"></el-input>
       </el-form-item>
       <el-form-item label="Password">
         <el-input type="password" v-model="form.password"></el-input>
@@ -22,18 +22,18 @@ export default {
   data: () => {
     return {
       form: {
-        username: "",
+        email: "",
         password: ""
       }
     }
   },
   methods: {
     login () {
-      window.user = {
-        username: this.username,
-        password: this.password
-      }
-      this.$router.push({ name: 'home'});
+      this.$store.dispatch('userLogin',{
+        email: this.form.email, 
+        password: this.form.password
+      })
+      this.$router.push({ name: 'contacts'});
     }
   }
 }

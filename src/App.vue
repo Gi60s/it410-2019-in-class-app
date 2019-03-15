@@ -4,17 +4,20 @@
     <el-container>
       <el-aside width="200px">
         <el-menu id="main-menu" :default-active="$route.meta.navIndex">
-          <el-menu-item index="1" @click="$router.push({ name: 'home' })">
+          <el-menu-item index="1" v-if="!isLoggedIn" @click="$router.push({ name: 'home' })">
             Home
           </el-menu-item>
-          <el-menu-item index="2" @click="$router.push({ name: 'login' })">
+          <el-menu-item index="2" v-if="!isLoggedIn" @click="$router.push({ name: 'login' })">
             Login
           </el-menu-item>
-          <el-menu-item index="3" @click="$router.push({ name: 'contacts' })">
+          <el-menu-item index="3" v-if="isLoggedIn" @click="$router.push({ name: 'contacts' })">
             Contacts
           </el-menu-item>
-          <el-menu-item index="4" @click="$router.push({ name: 'profile' })">
+          <el-menu-item index="4" v-if="isLoggedIn" @click="$router.push({ name: 'profile' })">
             Profile
+          </el-menu-item>
+          <el-menu-item index="5" v-if="isLoggedIn">
+            Logout
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -28,7 +31,12 @@
 <script>
 
 export default {
-  name: 'app'
+  name: 'app',
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.user !== null
+    }
+  }
 }
 </script>
 
