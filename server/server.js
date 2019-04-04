@@ -11,15 +11,22 @@ module.exports = async function (dbClient, port = 0) {
   const accounts = accountsController(dbClient)
   const app = express()
 
-  // tell passport to use a local strategy and tell it how to validate a username and password
-  passport.use(new LocalStrategy(async function (email, password, done) {
-    try {
-      const user = await accounts.login(email, password)
-      done(null, user || false)
-    } catch (err) {
-      done(err)
+  // create login strategy
+  const localStrategy = new LocalStrategy(
+    { usernameField: 'email', passwordField: 'password', passReqToCallback: true },
+    async function (req, e, p, done) {
+      try {
+        const { email, password } = req.body
+        const user = await accounts.login(email, password)
+        done(null, user || false)
+      } catch (err) {
+        done(err)
+      }
     }
-  }))
+  )
+
+  // tell passport to use a local strategy and tell it how to validate a username and password
+  passport.use('local-login', localStrategy)
 
   // tell passport how to turn a user into serialized data that will be stored with the session
   passport.serializeUser(function (user, done) {
