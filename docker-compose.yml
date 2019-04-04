@@ -1,5 +1,7 @@
 version: '3'
 services:
+
+  # this will start the database
   db:
     image: postgres:11
     restart: always
@@ -10,5 +12,21 @@ services:
       - POSTGRES_PASSWORD=passwrd
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
+
+  # this will start my web server
+  app:
+    build:
+      context: .
+    restart: always
+    environment:
+      - POSTGRES_DATABASE=contacts
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=passwrd
+      - POSTGRES_PORT=5432
+    volumes:
+      - ./dist:/root/dist
+      - ./server:/root/server
     ports:
-      - 3001:5432
+      - 3000:3000
+
