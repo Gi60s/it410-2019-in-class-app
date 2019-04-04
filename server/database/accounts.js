@@ -1,34 +1,54 @@
 
 module.exports = function (client) {
-  const accounts = {}
+  const dbAccounts = {}
 
-  accounts.checkLogin = function (email, password) {
-
+  dbAccounts.checkLogin = async function (email, password) {
+    const { rowCount } = await client.query({
+      text: 'SELECT * FROM logins WHERE email = $1 AND password = $2',
+      values: [ email, password ]
+    })
+    return rowCount > 0
   }
 
-  accounts.createAccount = function (email, password) {
-
+  dbAccounts.createAccount = async function (email, password) {
+    const { rowCount } = await client.query({
+      text: 'INSERT INTO logins (email, password) VALUES ($1, $2)',
+      values: [ email, password ]
+    })
+    return rowCount > 0
   }
 
-  accounts.getUser = function (email) {
-
+  dbAccounts.getUser = async function (email) {
+    const { rows } = await client.query({
+      text: 'SELECT * FROM profiles WHERE email = $1',
+      values: [ email ]
+    })
+    return rows[0] || null
   }
 
-  accounts.login = function (email) {
-
+  dbAccounts.login = async function (email) {
+    // TODO: hook up to table that tracks logged in users
   }
 
-  accounts.logout = function (email) {
-
+  dbAccounts.logout = async function (email) {
+    // TODO: hook up to table that tracks logged in users
   }
 
-  accounts.update = function (email, firstName, lastName, phone) {
-
+  dbAccounts.update = async function (email, name, phone) {
+    const { rows } = await client.query({
+      text: 'UPDATE profiles SET name = $1 AND phone = $2 WHERE email = $3',
+      values: [ name, phone, email ]
+    })
+    return rows[0] || null
   }
 
-  accounts.updatePassword = function (email, newPassword) {
-
+  dbAccounts.updatePassword = async function (email, newPassword) {
+    const { rowCount } = await client.query({
+      text: 'UPDATE logins SET password = $1 WHERE email = $2',
+      values: [ password, email ]
+    })
+    return rowCount > 0
   }
 
-  return accounts
+  return dbAccounts
 }

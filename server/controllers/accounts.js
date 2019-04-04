@@ -1,7 +1,7 @@
 const dbAccounts = require('../database/accounts')
 const crypto = require('crypto')
 
-const secret = process.env.secret || 'this is a secret'
+const secret = process.env.secret || 'this is a terrible secret'
 
 module.exports = function (dbClient) {
   const accounts = {}
@@ -30,8 +30,8 @@ module.exports = function (dbClient) {
       err.statusCode = 400
       throw err
     }
-    const pass = await encrypt(password)
-    return db.createAccount(email, pass)
+    const encryptedPass = await encrypt(password)
+    return db.createAccount(email, encryptedPass)
   }
 
   accounts.getUser = async function (email) {
@@ -41,6 +41,7 @@ module.exports = function (dbClient) {
   accounts.login = async function (email, password) {
     const loginOk = await accounts.checkLogin(email, password)
     if (!loginOk) return null
+    await db.login(email)
     return db.getUser(email)
   }
 
@@ -48,8 +49,8 @@ module.exports = function (dbClient) {
     return db.logout(email)
   }
 
-  accounts.update = async function (email, firstName, lastName, phone) {
-    return db.updateUser(email, firstName, lastName, phone)
+  accounts.update = async function (email, name, phone) {
+    return db.updateUser(email, name, phone)
   }
 
   return accounts
