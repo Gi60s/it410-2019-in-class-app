@@ -19,15 +19,9 @@ export default {
   components: {
     ContactInfo
   },
-  data () {
-    return {
-      contacts: [
-        {
-          name: 'James Speirs',
-          email: 'james_speirs@byu.edu',
-          phone: '555-555-5555'
-        }
-      ]
+  computed: {
+    contacts () {
+      return this.$store.state.contacts
     }
   }
 }

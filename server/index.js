@@ -9,6 +9,14 @@ const dbClient = new Pool({
   port: process.env.POSTGRES_PORT
 })
 
+dbClient.query('SELECT NOW()', (err, res) => {
+  if (err) {
+    console.error(err.stack)
+  } else {
+    console.log('Connected to database')
+  }
+})
+
 server(dbClient, 3000)
   .then(data => {
     console.log('The server is listening on port: ' + data.port)
