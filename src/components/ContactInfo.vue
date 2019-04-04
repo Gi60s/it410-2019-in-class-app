@@ -4,8 +4,7 @@
       <img :src="image">
     </div>
     <div class="details">
-      <label-value label="First Name" value="James"></label-value>
-      <label-value label="Last Name" value="Speirs"></label-value>
+      <label-value label="Name" value="James"></label-value>
       <label-value label="Email" value="james_speirs@byu.edu"></label-value>
       <label-value label="Phone" value="555-555-5555"></label-value>
     </div>
