@@ -13,6 +13,14 @@ services:
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
 
+  # mongo database
+  # db:
+  #   image: mongo:4.1
+  #   restart: always
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME: root
+  #     - MONGO_INITDB_ROOT_PASSWORD: example
+
   # this will start my web server
   app:
     build:
